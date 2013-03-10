@@ -1,0 +1,37 @@
+name: EntityPolice
+main: me.potatofarms.entitypolice.EntityPolice
+description: control entities
+authors: [PotatoFarms, CubieX]
+version: 1.0.0
+
+commands:
+   entitypolice:
+      description: main command.
+      usage: /<command> <count <mob>|remove <mob>|countnear <player> <mob> <radius>|removenear <player> <mob> <radius> [world]
+   ep:
+      description: main command.
+      usage: /<command> <count <mob>|remove <mob>|countnear <player> <mob> <radius>|removenear <player> <mob> <radius> [world]
+permissions:
+    entitypolice.*:
+        description: Gives access to all entitypolice commands.
+        children:
+            entitypolice.help: true
+            entitypolice.count: true
+            entitypolice.remove: true
+            entitypolice.removenear: true
+            entitypolice.countnear: true
+    entitypolice.help:
+        description: Gives access to the help command.
+        default: op
+    entitypolice.count:
+        description: Gives access to the count command.
+        default: op
+    entitypolice.remove:
+        description: Gives access to the remove command.
+        default: op
+    entitypolice.removenear: 
+        description: Gives access to the removenear command.
+        default: op
+    entitypolice.countnear:
+        description: Gives access to the countnear command.
+        default: op

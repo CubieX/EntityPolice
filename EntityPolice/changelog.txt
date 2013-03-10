@@ -1,0 +1,9 @@
+Changelog of EntityPolice
+-------------------------
+
+V1.0.0
+- first overhauled version by CubieX
+- Updated for CB 1.4.6-R0.3
+
+V0.2.1
+- orogonal version from PotatoFarms
