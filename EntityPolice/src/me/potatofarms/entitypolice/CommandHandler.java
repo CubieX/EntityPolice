@@ -99,29 +99,99 @@ public class CommandHandler implements CommandExecutor
          {
             if (sender.hasPermission("entitypolice.countnear"))
             {
-               // TODO Abfragen sicher machen! Kommt ne Exception wenn Parameter fehlen, weil er sie benutzt, auch wenn sie garnicht gesetzt wurden!
-               // Daemliche ?-syntax aendern in normale syntax und Logik!
-               entityCounterNear ecn = new entityCounterNear();
-               String playerName = args.length >= 1 ? args[1] : "";
-               Player playerC = Bukkit.getServer().getPlayer(playerName);
-               String mobName = args.length >= 2 ? args[2] : "";
-               String sr = args.length >= 3 ? args[3] : "";
-
-               double x = Double.valueOf(sr);
-               double y = Double.valueOf(sr);
-               double z = Double.valueOf(sr);
-               PluginDescriptionFile pdffile = plugin.getDescription();
-
-               if(null != playerC)
+               if(args.length == 4)
                {
-                  String countnear = ecn.countEntitiesNear(playerC, x, y, z, mobName, pdffile.getName());
-                  sender.sendMessage(countnear);
+                  // TODO Abfragen sicher machen! Kommt ne Exception wenn Parameter fehlen, weil er sie benutzt, auch wenn sie garnicht gesetzt wurden!
+                  // Daemliche ?-syntax aendern in normale syntax und Logik!
+                  entityCounterNear ecn = new entityCounterNear();
+                  String playerName = args.length >= 1 ? args[1] : "";
+                  Player playerC = Bukkit.getServer().getPlayer(playerName);
+                  String mobName = args.length >= 2 ? args[2] : "";
+                  Double sr = Double.valueOf(args[3]);
+
+                  if(sr > 0 && sr < EntityPolice.MAX_SCAN_RADIUS)
+                  {
+
+                     PluginDescriptionFile pdffile = plugin.getDescription();
+
+                     if(null != playerC)
+                     {
+                        String countnear = ecn.countEntitiesNear(playerC, sr, mobName, pdffile.getName());
+                        sender.sendMessage(countnear);
+                     }
+                     else
+                     {
+                        sender.sendMessage(ChatColor.YELLOW + "Dieser Spieler ist nicht online.");
+                     }
+                     return true;
+                  }
+                  else
+                  {
+                     sender.sendMessage(ChatColor.YELLOW + "Suchradius muss zwischen 1 und " + EntityPolice.MAX_SCAN_RADIUS + " liegen!");
+                  }
                }
                else
                {
-                  sender.sendMessage(ChatColor.YELLOW + "Dieser Spieler ist nicht online.");
+                  sender.sendMessage("Benutzung: /ep countnear <Spieler> <Mob-Typ [z.B. mob, monster, animal, zombie, ..]> <Suchradius>");
                }
+            }
+            else
+            {
+               sender.sendMessage(ChatColor.RED + "You do not have permission to do this.");
                return true;
+            }
+         }
+         else if (subCommand.equalsIgnoreCase("list"))
+         {
+            if (sender.hasPermission("entitypolice.list"))
+            {
+               // TODO Abfragen sicher machen! Kommt ne Exception wenn Parameter fehlen, weil er sie benutzt, auch wenn sie garnicht gesetzt wurden!
+               // Daemliche ?-syntax aendern in normale syntax und Logik!
+               if(args.length == 3)
+               {
+                  entityCounterNear ecn = new entityCounterNear();
+                  Player[] playerList = Bukkit.getServer().getOnlinePlayers();
+                  String mobType = args[1];
+                  Double sr = Double.valueOf(args[2]);
+
+                  if(sr > 0 && sr < EntityPolice.MAX_SCAN_RADIUS)
+                  {
+                     PluginDescriptionFile pdffile = plugin.getDescription();
+
+                     if((null != playerList) &&
+                           (playerList.length > 0))
+                     {
+                        String countnear = "";
+                        for(Player playerC : playerList)
+                        {
+                           countnear = ecn.countEntitiesNear(playerC, sr, mobType, pdffile.getName());
+
+                           if(!countnear.equals(ChatColor.RED + "Invalid Entity."))
+                           {
+                              sender.sendMessage(countnear);
+                           }
+                           else
+                           {
+                              sender.sendMessage(countnear);
+                              return false;
+                           }                          
+                        }
+                     }
+                     else
+                     {
+                        sender.sendMessage(ChatColor.YELLOW + "Es sind keine Spieler online.");
+                     }
+                     return true;  
+                  }
+                  else
+                  {
+                     sender.sendMessage(ChatColor.YELLOW + "Suchradius muss zwischen 1 und " + EntityPolice.MAX_SCAN_RADIUS + " liegen!");
+                  }
+               }
+               else
+               {
+                  sender.sendMessage("Benutzung: /ep list <Mob-Typ [z.B. mob, monster, animal, zombie, ..]> <Suchradius>");
+               }               
             }
             else
             {

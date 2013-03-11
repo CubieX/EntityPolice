@@ -8,6 +8,8 @@ public class EntityPolice extends JavaPlugin {
    public final Logger logger = Logger.getLogger("Minecraft");
    public static EntityPolice plugin;
    private CommandHandler comHandler = null;
+   
+   public static final int MAX_SCAN_RADIUS = 50;
 
    @Override
    public void onEnable()

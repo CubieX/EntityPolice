@@ -20,6 +20,7 @@ permissions:
             entitypolice.remove: true
             entitypolice.removenear: true
             entitypolice.countnear: true
+            entitypolice.list: true
     entitypolice.help:
         description: Gives access to the help command.
         default: op
@@ -34,4 +35,7 @@ permissions:
         default: op
     entitypolice.countnear:
         description: Gives access to the countnear command.
+        default: op
+    entitypolice.list:
+        description: Gives access to the list command.
         default: op

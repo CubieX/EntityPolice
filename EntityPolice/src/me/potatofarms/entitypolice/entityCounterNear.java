@@ -15,10 +15,14 @@ import org.bukkit.entity.Squid;
 
 public class entityCounterNear
 {
-   public String countEntitiesNear(Player playerC, double x, double y, double z, String entityName, String pluginName)
+   public String countEntitiesNear(Player playerC, double sr, String entityName, String pluginName)
    {
       Integer all = 0;
 
+      double x = sr;
+      double y = sr;
+      double z = sr;
+      
       Boolean validEntityName = false;
       for (EntityNames en : EntityNames.values())
       {
@@ -206,6 +210,6 @@ public class entityCounterNear
       }
 
       return ChatColor.GOLD + "[" + pluginName + "]" + ChatColor.GREEN
-            + " Es sind " + ChatColor.WHITE + all.toString() + ChatColor.GREEN + " " + entityName + "s innerhalb von " + x + " Metern um " + playerC.getName();
+            + " " + ChatColor.WHITE + all.toString() + ChatColor.GREEN + " " + entityName + "s innerhalb von " + ChatColor.WHITE + x + ChatColor.GREEN + " Metern um " + playerC.getName();
    }
 }
