@@ -30,6 +30,73 @@ public class CommandHandler implements CommandExecutor
       if (commandLabel.equalsIgnoreCase("entitypolice")
             || commandLabel.equalsIgnoreCase("ep"))
       {
+         if (args.length == 0)
+         { //no arguments, so help will be displayed
+            return false;
+         }
+         
+         if (args.length==1)
+         {
+            if (args[0].equalsIgnoreCase("help"))
+            {
+               if (sender.hasPermission("entitypolice.help"))
+               {
+                  sender.sendMessage(ChatColor.GOLD + "EntityPolice Help:");
+                  sender.sendMessage(ChatColor.GOLD + "Commands:");
+                  sender.sendMessage(ChatColor.BLUE + "/entitypolice"
+                        + ChatColor.AQUA
+                        + " count <mob> <(optional) world>"
+                        + ChatColor.YELLOW
+                        + " - Returns the number of <mob> in <world>");
+                  sender.sendMessage(ChatColor.BLUE
+                        + "/entitypolice"
+                        + ChatColor.AQUA
+                        + " remove <mob> <(optional) world>"
+                        + ChatColor.YELLOW
+                        + " - Removes all the mobs of type <mob> in <world>");
+                  sender.sendMessage(ChatColor.BLUE
+                        + "/entitypolice"
+                        + ChatColor.AQUA
+                        + " removenear <player> <mob> <radius>"
+                        + ChatColor.YELLOW
+                        + " - Removes all mobs of type <mob> around player <player> within the radius of <radius>");
+                  sender.sendMessage(ChatColor.BLUE
+                        + "/entitypolice"
+                        + ChatColor.AQUA
+                        + " countnear <player> <mob> <radius>"
+                        + ChatColor.YELLOW
+                        + " - Counts all mobs of type <mob> around player <player> within the radius of <radius>");
+                  sender.sendMessage(ChatColor.BLUE
+                        + "/entitypolice"
+                        + ChatColor.AQUA
+                        + " list <mob> <radius>"
+                        + ChatColor.YELLOW
+                        + " - Counts all mobs of type <mob> around every online player within the radius of <radius>");
+                  return true;
+               }
+               else
+               {
+                  sender.sendMessage(ChatColor.RED + "You do not have permission to do this.");
+                  return true;
+               }
+            }
+            else
+            {
+               return false;
+            }
+         }
+         
+         if (args.length==3)
+         {
+            return true;
+         }
+         
+         if (args.length==4)
+         {
+            return true;
+         }
+
+         // TODO reorder and rearrange commands in above structure to make it more reliable on errors!
          entityCounter ec = new entityCounter();
          entityRemover er = new entityRemover();
          String subCommand = args.length > 0 ? args[0].toLowerCase() : "";
@@ -109,7 +176,7 @@ public class CommandHandler implements CommandExecutor
                   String mobName = args.length >= 2 ? args[2] : "";
                   Double sr = Double.valueOf(args[3]);
 
-                  if(sr > 0 && sr < EntityPolice.MAX_SCAN_RADIUS)
+                  if(sr > 0 && sr <= EntityPolice.MAX_SCAN_RADIUS)
                   {
 
                      PluginDescriptionFile pdffile = plugin.getDescription();
@@ -154,7 +221,7 @@ public class CommandHandler implements CommandExecutor
                   String mobType = args[1];
                   Double sr = Double.valueOf(args[2]);
 
-                  if(sr > 0 && sr < EntityPolice.MAX_SCAN_RADIUS)
+                  if(sr > 0 && sr <= EntityPolice.MAX_SCAN_RADIUS)
                   {
                      PluginDescriptionFile pdffile = plugin.getDescription();
 
@@ -232,44 +299,6 @@ public class CommandHandler implements CommandExecutor
             }
 
          }
-         else if (subCommand.equalsIgnoreCase("help"))
-         {
-            if (sender.hasPermission("entitypolice.help"))
-            {
-               sender.sendMessage(ChatColor.GOLD + "EntityPolice Help:");
-               sender.sendMessage(ChatColor.GOLD + "Commands:");
-               sender.sendMessage(ChatColor.BLUE + "/entitypolice"
-                     + ChatColor.AQUA
-                     + " count <mob> <(optional) world>"
-                     + ChatColor.YELLOW
-                     + " - Returns the number of <mob> in <world>");
-               sender.sendMessage(ChatColor.BLUE
-                     + "/entitypolice"
-                     + ChatColor.AQUA
-                     + " remove <mob> <(optional) world>"
-                     + ChatColor.YELLOW
-                     + " - Removes all the mobs of type <mob> in <world>");
-               sender.sendMessage(ChatColor.BLUE
-                     + "/entitypolice"
-                     + ChatColor.AQUA
-                     + " removenear <player> <mob> <radius>"
-                     + ChatColor.YELLOW
-                     + " - Removes all mobs of type <mob> around player <player> within the radius of <radius>");
-               sender.sendMessage(ChatColor.BLUE
-                     + "/entitypolice"
-                     + ChatColor.AQUA
-                     + " countnear <player> <mob> <radius>"
-                     + ChatColor.YELLOW
-                     + " - Counts all mobs of type <mob> around player <player> within the radius of <radius>");
-               return true;
-            }
-            else
-            {
-               sender.sendMessage(ChatColor.RED + "You do not have permission to do this.");
-               return true;
-            }
-         }
-
       }
       return false;
    }

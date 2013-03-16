@@ -2,7 +2,7 @@ name: EntityPolice
 main: me.potatofarms.entitypolice.EntityPolice
 description: control entities
 authors: [PotatoFarms, CubieX]
-version: 1.0.0
+version: 1.0.1
 
 commands:
    entitypolice:

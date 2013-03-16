@@ -210,6 +210,6 @@ public class entityCounterNear
       }
 
       return ChatColor.GOLD + "[" + pluginName + "]" + ChatColor.GREEN
-            + " " + ChatColor.WHITE + all.toString() + ChatColor.GREEN + " " + entityName + "s innerhalb von " + ChatColor.WHITE + x + ChatColor.GREEN + " Metern um " + playerC.getName();
+            + " " + ChatColor.WHITE + all.toString() + ChatColor.GREEN + " " + entityName + "s in " + ChatColor.WHITE + x + ChatColor.GREEN + " Metern um " + playerC.getName();
    }
 }

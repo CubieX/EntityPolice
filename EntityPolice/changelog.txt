@@ -1,6 +1,9 @@
 Changelog of EntityPolice
 -------------------------
 
+V1.0.1
+- fixed maximum search radius check
+
 V1.0.0
 - first overhauled version by CubieX
 - added "list" command to scan mobs for ALL players in specified radius and list them by player
