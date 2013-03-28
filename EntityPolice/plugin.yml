@@ -2,15 +2,15 @@ name: EntityPolice
 main: me.potatofarms.entitypolice.EntityPolice
 description: control entities
 authors: [PotatoFarms, CubieX]
-version: 1.0.1
+version: 1.1.0
 
 commands:
    entitypolice:
       description: main command.
-      usage: /<command> <count <mob>|remove <mob>|countnear <player> <mob> <radius>|removenear <player> <mob> <radius> [world]
+      usage: /<command> <list> <mob> <radius>|count <mob>|remove <mob>|countnear <player> <mob> <radius>|removenear <player> <mob> <radius> [world]
    ep:
       description: main command.
-      usage: /<command> <count <mob>|remove <mob>|countnear <player> <mob> <radius>|removenear <player> <mob> <radius> [world]
+      usage: /<command> <list> <mobtype e.g. mob or monster or skeleton> <radius>
 permissions:
     entitypolice.*:
         description: Gives access to all entitypolice commands.

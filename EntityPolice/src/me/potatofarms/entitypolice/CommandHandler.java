@@ -11,12 +11,10 @@ import org.bukkit.plugin.PluginDescriptionFile;
 public class CommandHandler implements CommandExecutor
 {
    private final EntityPolice plugin;
-   //private final CSIconfigHandler cHandler;
 
-   public CommandHandler(EntityPolice plugin/*, CSIconfigHandler cHandler*/)
+   public CommandHandler(EntityPolice plugin)
    {
       this.plugin = plugin;
-      //this.cHandler = cHandler;
    }
 
    public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args)
@@ -30,11 +28,13 @@ public class CommandHandler implements CommandExecutor
       if (commandLabel.equalsIgnoreCase("entitypolice")
             || commandLabel.equalsIgnoreCase("ep"))
       {
+         String subCommand = args.length > 0 ? args[0].toLowerCase() : "";
+
          if (args.length == 0)
          { //no arguments, so help will be displayed
             return false;
          }
-         
+
          if (args.length==1)
          {
             if (args[0].equalsIgnoreCase("help"))
@@ -43,7 +43,7 @@ public class CommandHandler implements CommandExecutor
                {
                   sender.sendMessage(ChatColor.GOLD + "EntityPolice Help:");
                   sender.sendMessage(ChatColor.GOLD + "Commands:");
-                  sender.sendMessage(ChatColor.BLUE + "/entitypolice"
+                  /*sender.sendMessage(ChatColor.BLUE + "/entitypolice"
                         + ChatColor.AQUA
                         + " count <mob> <(optional) world>"
                         + ChatColor.YELLOW
@@ -65,41 +65,104 @@ public class CommandHandler implements CommandExecutor
                         + ChatColor.AQUA
                         + " countnear <player> <mob> <radius>"
                         + ChatColor.YELLOW
-                        + " - Counts all mobs of type <mob> around player <player> within the radius of <radius>");
+                        + " - Counts all mobs of type <mob> around player <player> within the radius of <radius>");*/
                   sender.sendMessage(ChatColor.BLUE
                         + "/entitypolice"
                         + ChatColor.AQUA
                         + " list <mob> <radius>"
                         + ChatColor.YELLOW
-                        + " - Counts all mobs of type <mob> around every online player within the radius of <radius>");
-                  return true;
+                        + " - Counts all mobs of type <mob> around every online player within the radius of <radius>");                  
                }
                else
                {
-                  sender.sendMessage(ChatColor.RED + "You do not have permission to do this.");
-                  return true;
+                  sender.sendMessage(ChatColor.RED + "You do not have permission to do this.");                 
                }
+               return true;
+            }
+            else if (args[0].equalsIgnoreCase("version"))
+            {
+               if (null != player)
+               {
+                  sender.sendMessage(ChatColor.GREEN + "This server is running " + plugin.getDescription().getName() + " " + plugin.getDescription().getVersion());
+               }
+               else
+               {
+                  sender.sendMessage("This server is running " + plugin.getDescription().getName() + " " + plugin.getDescription().getVersion());
+               }
+               return true;
             }
             else
             {
                return false;
             }
          }
-         
+
          if (args.length==3)
          {
-            return true;
+            if (subCommand.equalsIgnoreCase("list"))
+            {
+               if (sender.hasPermission("entitypolice.list"))
+               {                  
+                  entityCounterNear ecn = new entityCounterNear();
+                  Player[] playerList = Bukkit.getServer().getOnlinePlayers();
+                  String mobType = args[1];
+                  Double sr = Double.valueOf(args[2]);
+
+                  if(sr > 0 && sr <= EntityPolice.MAX_SCAN_RADIUS)
+                  {
+                     PluginDescriptionFile pdffile = plugin.getDescription();
+
+                     if((null != playerList) &&
+                           (playerList.length > 0))
+                     {
+                        String countnear = "";
+                        for(Player playerC : playerList)
+                        {
+                           countnear = ecn.countEntitiesNear(playerC, sr, mobType, pdffile.getName());
+
+                           if(!countnear.equals(ChatColor.RED + "Invalid Entity."))
+                           {
+                              sender.sendMessage(countnear);
+                           }
+                           else
+                           {
+                              sender.sendMessage(countnear);
+                              return false;
+                           }                          
+                        }
+                     }
+                     else
+                     {
+                        sender.sendMessage(ChatColor.YELLOW + "Es sind keine Spieler online.");
+                     }
+                     return true;  
+                  }
+                  else
+                  {
+                     sender.sendMessage(ChatColor.YELLOW + "Suchradius muss zwischen 1 und " + EntityPolice.MAX_SCAN_RADIUS + " liegen!");
+                  }                                
+               }
+               else
+               {
+                  sender.sendMessage(ChatColor.RED + "You do not have permission to do this.");
+                  return true;
+               }
+            }            
          }
-         
+
          if (args.length==4)
          {
             return true;
-         }
-
-         // TODO reorder and rearrange commands in above structure to make it more reliable on errors!
-         entityCounter ec = new entityCounter();
+         }        
+      }
+      return false;
+   }
+}
+//TODO Abfragen sicher machen! Kommt ne Exception wenn Parameter fehlen, weil er sie benutzt, auch wenn sie garnicht gesetzt wurden!
+// Daemliche ?-syntax aendern in normale syntax und Logik!
+// TODO reorder and rearrange commands in above structure to make it more reliable on errors!
+/*entityCounter ec = new entityCounter();
          entityRemover er = new entityRemover();
-         String subCommand = args.length > 0 ? args[0].toLowerCase() : "";
 
          if (subCommand.equalsIgnoreCase("count"))
          {
@@ -303,4 +366,4 @@ public class CommandHandler implements CommandExecutor
       return false;
    }
 
-}
+}*/

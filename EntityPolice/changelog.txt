@@ -1,6 +1,11 @@
 Changelog of EntityPolice
 -------------------------
 
+V1.1.0
+- added "version" command
+- removed all unneeded commands to rework them later if needed
+- fixed command handler
+
 V1.0.1
 - fixed maximum search radius check
 
